@@ -17,16 +17,16 @@ def get_meo():
     meo_obj = session.query(Meo).all()
     meo = meoDTO.meo_schema.dump(meo_obj)
     session.close()
-    return jsonify(meo.data)
+    return jsonify(meo).data
 
 @app.route('/meos', methods = ['POST'])
 def add_meo():
     posted_meo = meoDTO.MeoSchema().load(request.get_json())
-    meo_obj = Meo(**posted_meo.data, created_by = 'HTTP post request')
+    meo_obj = Meo(**posted_meo, created_by = 'HTTP post request')
     session = Session()
     session.add(meo_obj)
     session.commit()
-    new_meo = meoDTO.MeoSchema().dump(meo_obj).data
+    new_meo = meoDTO.MeoSchema().dump(meo_obj)
     session.close()
     return jsonify(new_meo), 201
 
