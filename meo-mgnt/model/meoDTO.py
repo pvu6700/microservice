@@ -12,7 +12,7 @@ Base = declarative_base()
 
 class Meo(Base):
     __tablename__ = "meo"
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key= True, autoincrement= True)
     name = Column(String)
     price = Column(Integer)
     quantity = Column(Integer)
