@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
 from model import meoDTO
 from model.meoDTO import Base, Meo, Engine, Session
 
 #init app
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meo.sqlite3'
 
 #init db
