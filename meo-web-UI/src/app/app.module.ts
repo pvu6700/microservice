@@ -14,7 +14,7 @@ import { MeoMgmtApiService } from './meo-mgnt/meo-mgmt-api.service';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [MeoMgmtApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

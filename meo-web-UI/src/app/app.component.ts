@@ -26,9 +26,9 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.meoListSub = this.meoApi.getMeo().subscribe(
       res => {
-        this.meoList = res;
+      this.meoList = res;
       },
-      console.error
+      err => console.error(err),
     );
   }
 }
