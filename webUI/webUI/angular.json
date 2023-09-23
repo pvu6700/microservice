@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "meo-web-UI": {
+    "webUI": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/meo-web-ui",
+            "outputPath": "dist/web-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "meo-web-UI:build:production"
+              "browserTarget": "webUI:build:production"
             },
             "development": {
-              "browserTarget": "meo-web-UI:build:development"
+              "browserTarget": "webUI:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "meo-web-UI:build"
+            "browserTarget": "webUI:build"
           }
         },
         "test": {
@@ -96,6 +96,6 @@
     }
   },
   "cli": {
-    "analytics": "6004b9ea-ccc8-4e5b-af46-273ff0574916"
+    "analytics": "761e6195-50f0-4a80-bfb0-6bb2f2ed0bf8"
   }
 }

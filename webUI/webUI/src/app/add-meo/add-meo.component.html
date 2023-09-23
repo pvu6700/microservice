@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="md-col-12"> Add meos</div>
+    </div>
+    <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off">
+    <div class="row">
+        <div class="md-col-6">Name</div>
+        <div class="md-col-6"><input type="text" name="name" formControlName="name"></div>
+    </div>
+
+    <div class="row">
+        <div class="md-col-6">Price</div>
+        <div class="md-col-6"><input type="text" name="name" formControlName="price"></div>
+    </div>
+
+    <div class="row">
+        <div class="md-col-6">Quantity</div>
+        <div class="md-col-6"><input type="text" name="name" formControlName="quantity"></div>
+    </div>
+
+    <div class="row">
+        <div class="md-col-12"><input type="submit" class="btn btn-warning" name="submit"></div>
+    </div>
+</form>
+</div>

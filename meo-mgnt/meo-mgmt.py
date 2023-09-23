@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify, Response
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from model import meoDTO
 from model.meoDTO import Base, Meo, Engine, Session
 
 #init app
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r'*': {'origins': '*'}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meo.sqlite3'
 
 #init db
@@ -13,19 +13,32 @@ Base.metadata.create_all(Engine)
 
 #app process
 @app.route('/')
+@cross_origin()
 def index():
     return "Meowww"
 
+@app.route('/meo/<int:id>', methods = ['GET'])
+@cross_origin()
+def get_meo(id):
+    session = Session()
+    meo_obj = session.query(Meo).filter_by(id=id).first()
+    if meo_obj:
+        meo = meoDTO.meo_schema.dump(meo_obj)
+        session.close()
+        return jsonify(meo).data
+    return {'message': 'Rat tiec, be meo khong co TvT'}, 404
+
 @app.route('/meos', methods = ['GET'])
-def get_meo():
+@cross_origin()
+def get_meos():
     session = Session()
     meo_obj = session.query(Meo).all()
     meo = meoDTO.meo_schema.dump(meo_obj)
     session.close()
     return jsonify(meo).data
 
-# , created_by = 'HTTP post request'
 @app.route('/addmeos', methods = ['POST'])
+@cross_origin()
 def add_meo():
     posted_meo = meoDTO.MeoSchema().load(request.get_json())
     meo_obj = Meo(**posted_meo)
