@@ -17,7 +17,7 @@ export class AddMeoComponent implements OnInit {
       this.angForm.value.price,
       this.angForm.value.quantity,
     ).pipe(first()).subscribe(data =>{
-        this.route.navigate(['list-meo']);
+        this.route.navigate(['list-meo']).then(data);
     }
     )
   }

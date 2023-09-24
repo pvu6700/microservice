@@ -12,13 +12,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meo.sqlite3'
 Base.metadata.create_all(Engine)
 
 #app process
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
+
 @app.route('/')
-@cross_origin()
 def index():
-    return "Meowww"
+    return {'messange': 'Meowww'}
 
 @app.route('/meo/<int:id>', methods = ['GET'])
-@cross_origin()
 def get_meo(id):
     session = Session()
     meo_obj = session.query(Meo).filter_by(id=id).first()
@@ -29,7 +34,6 @@ def get_meo(id):
     return {'message': 'Rat tiec, be meo khong co TvT'}, 404
 
 @app.route('/meos', methods = ['GET'])
-@cross_origin()
 def get_meos():
     session = Session()
     meo_obj = session.query(Meo).all()
@@ -38,7 +42,6 @@ def get_meos():
     return jsonify(meo).data
 
 @app.route('/addmeos', methods = ['POST'])
-@cross_origin()
 def add_meo():
     posted_meo = meoDTO.MeoSchema().load(request.get_json())
     meo_obj = Meo(**posted_meo)
