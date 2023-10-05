@@ -8,18 +8,18 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class MeosService {
-  baseUrl: string = 'http://127.0.0.1:5000/'
+  baseUrl: string = 'http://127.0.0.1:5000'
 
   constructor(private httpClient: HttpClient) { }
 
-  public getWelcome(){
-    return this.httpClient.get<any>(this.baseUrl).pipe();
+  public getWelcome(): Observable<String>{
+    return this.httpClient.get(this.baseUrl, {responseType: 'text'});
   }
 
   public addMeo(name:any, price:any, quantity:any){
     return this.httpClient.post<any>(this.baseUrl + 'meos', 
     {name, price, quantity})
-    .pipe(map((Meos:any) => {
+    .pipe(map((Meos: Meos) => {
       return Meos;
     }));
   }

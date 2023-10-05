@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MeosService } from '../meos.service';
 
@@ -7,22 +7,24 @@ import { MeosService } from '../meos.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit, OnDestroy{
+  message: String | undefined;
   constructor(
     private meoService: MeosService,
-    private route: Router
   ){}
   
-  getdata(){
-    this.meoService.getWelcome().pipe().subscribe(
-      data => {
-        this.route.navigate(['/'])
-      }
-    )
+  getdata(): void{
+    this.meoService.getWelcome().subscribe(
+      message => this.message = message
+    );
   }
 
   ngOnInit(): void {
-      this.getdata()
+      this.getdata();
+  }
+
+  ngOnDestroy(): void {
+    
   }
 
 }

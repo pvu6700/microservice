@@ -5,9 +5,9 @@ import { AddMeoComponent } from './add-meo/add-meo.component';
 import { ListMeoComponent } from './list-meo/list-meo.component';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'add-meo', component: AddMeoComponent},
-  {path: 'list-meo', component: ListMeoComponent},
+  {path: '', component: HomeComponent},
+  {path: 'addmeos', component: AddMeoComponent},
+  {path: 'meos', component: ListMeoComponent},
 ];
 
 @NgModule({
