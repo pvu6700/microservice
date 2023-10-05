@@ -5,33 +5,37 @@ from model.meoDTO import Base, Meo, Engine, Session
 
 #init app
 app = Flask(__name__)
-CORS(app, resources={r'*': {'origins': '*'}})
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meo.sqlite3'
 
 #init db
 Base.metadata.create_all(Engine)
 
 #app process
-@app.after_request
-def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-  return response
+# @app.after_request
+# def after_request(response):
+#   response.headers.add('Access-Control-Allow-Origin', '*')
+#   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#   return response
 
 @app.route('/')
 def index():
-    return {'messange': 'Meowww'}
+    # welcome = {'message': 'Meoww'}
+    # return jsonify(welcome).data, 200
+    return 'Meowww'
 
 @app.route('/meo/<int:id>', methods = ['GET'])
 def get_meo(id):
+    sorry_message = {'message': 'Rat tiec, be meo khong co TvT'}
     session = Session()
     meo_obj = session.query(Meo).filter_by(id=id).first()
     if meo_obj:
         meo = meoDTO.meo_schema.dump(meo_obj)
         session.close()
         return jsonify(meo).data
-    return {'message': 'Rat tiec, be meo khong co TvT'}, 404
+    else:
+        return jsonify(sorry_message).data, 404
 
 @app.route('/meos', methods = ['GET'])
 def get_meos():
