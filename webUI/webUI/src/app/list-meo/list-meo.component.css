@@ -1,0 +1,32 @@
+#header{
+    text-align: center;
+    color: azure;
+    background-color: aqua;
+}
+.Meos{
+    margin: 0;
+    padding: 20px;
+    background-color: chocolate;
+}
+.Meos li{
+    display: flex;
+}
+.Meos .name{
+    display: inline-block;
+    padding: 20px;
+    border-radius: 4px 0 0 4px;
+    border: 5px aqua;
+    align-self: center;
+}
+.Meos .price{
+    display: inline-block;
+    padding: 5px;
+    border-radius: 4px 0 0 4px;
+    align-self: center;
+}
+.Meos .quantity{
+    display: inline-block;
+    padding: 6px;
+    border-radius: 4px 0 0 4px;
+    align-self: center;
+}

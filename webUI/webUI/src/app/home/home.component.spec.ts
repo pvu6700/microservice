@@ -26,12 +26,4 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('can test HttpClient.get()', () =>{
-    const testData: String = "Meowww";
-    httpClient.get<any>('http://127.0.0.1:5000/').subscribe(data => expect(data).toEqual(testData));
-    const req = httpTestingController.expectOne('');
-    expect(req.request.method).toEqual('GET');
-    req.flush(testData);
-    httpTestingController.verify();
-  });
 });

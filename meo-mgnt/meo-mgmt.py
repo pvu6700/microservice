@@ -21,9 +21,9 @@ Base.metadata.create_all(Engine)
 
 @app.route('/')
 def index():
-    # welcome = {'message': 'Meoww'}
-    # return jsonify(welcome).data, 200
-    return 'Meowww'
+    welcome = {'message': 'Meoww'}
+    return jsonify(welcome).data, 200
+    # return 'Meowww'
 
 @app.route('/meo/<int:id>', methods = ['GET'])
 def get_meo(id):
@@ -41,7 +41,7 @@ def get_meo(id):
 def get_meos():
     session = Session()
     meo_obj = session.query(Meo).all()
-    meo = meoDTO.meo_schema.dump(meo_obj)
+    meo = meoDTO.meos_schema.dump(meo_obj)
     session.close()
     return jsonify(meo).data
 

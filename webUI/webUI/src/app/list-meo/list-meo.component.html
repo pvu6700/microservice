@@ -1,1 +1,10 @@
-<p>list-meo works!</p>
+<div class="container">
+    <h1 id="Header">Danh sach meo</h1>
+    <ul class="Meos">
+        <li *ngFor="let meo of listMeos">
+            <span class="name">{{meo.name}}</span>
+            <span class="price">{{meo.price}}</span>
+            <span class="quantity">{{meo.quantity}}</span>
+        </li>
+    </ul>
+</div>
