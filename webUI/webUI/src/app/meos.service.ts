@@ -21,7 +21,7 @@ export class MeosService {
   }
 
   public addMeo(name:any, price:any, quantity:any){
-    return this.httpClient.post<any>(this.baseUrl + 'meos', 
+    return this.httpClient.post<any>(this.baseUrl + 'addmeos', 
     {name, price, quantity})
     .pipe(map((Meos: Meos) => {
       return Meos;
