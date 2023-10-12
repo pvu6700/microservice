@@ -1,15 +1,12 @@
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS, cross_origin
 from model import meoDTO
-from model.meoDTO import Base, Meo, Engine, Session
+from model.meoDTO import Meo
 
 #init app
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meo.sqlite3'
-
-#init db
-Base.metadata.create_all(Engine)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/"
 
 #app process
 # @app.after_request
@@ -25,36 +22,40 @@ def index():
     return jsonify(welcome).data, 200
     # return 'Meowww'
 
-@app.route('/meo/<int:id>', methods = ['GET'])
-def get_meo(id):
-    sorry_message = {'message': 'Rat tiec, be meo khong co TvT'}
-    session = Session()
-    meo_obj = session.query(Meo).filter_by(id=id).first()
-    if meo_obj:
-        meo = meoDTO.meo_schema.dump(meo_obj)
-        session.close()
-        return jsonify(meo).data
+@app.route('/meo/<string:name>', methods = ['GET'])
+def get_meo(name):
+    meo = Meo.getMeo(name)
+    message = {'message': 'Rat tiec, be meo khong co TvT'}
+    if meo == {}:
+        return jsonify(message).data, 404
     else:
-        return jsonify(sorry_message).data, 404
+        meo_dict = {
+            'name': meo['name'],
+            'price': meo['price'],
+            'quantity': meo['quantity']
+        }
+        return jsonify(meo_dict).data, 200
 
 @app.route('/meos', methods = ['GET'])
 def get_meos():
-    session = Session()
-    meo_obj = session.query(Meo).all()
-    meo = meoDTO.meos_schema.dump(meo_obj)
-    session.close()
-    return jsonify(meo).data
+    meos = Meo.getMeos()
+    meo_list = []
+    for meo in meos:
+        meo_dict = {
+            'name': meo['name'],
+            'price': meo['price'],
+            'quantity': meo['quantity']
+        }
+        meo_list.append(meo_dict)
+    return jsonify(meo_list), 200
 
 @app.route('/addmeos', methods = ['POST'])
 def add_meo():
-    posted_meo = meoDTO.MeoSchema().load(request.get_json())
-    meo_obj = Meo(**posted_meo)
-    session = Session()
-    session.add(meo_obj)
-    session.commit()
-    new_meo = meoDTO.MeoSchema().dump(meo_obj)
-    session.close()
-    return jsonify(new_meo).data, 201
+    data = request.get_json()
+    meo_data = Meo(data['name'], data['price'], data['quantity'])
+    Meo.addMeo(meo_data)
+    message = {'message': 'Meow done'}
+    return jsonify(message).data, 200
 
 #run app
 if __name__ == '__main__':

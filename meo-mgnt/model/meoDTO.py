@@ -1,33 +1,52 @@
-from sqlalchemy import create_engine
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from marshmallow import Schema, fields
+import pymongo
 
-Engine = create_engine('sqlite:///meo.sqlite3', echo=True)
+dbconnect = pymongo.MongoClient('mongodb://localhost:27017/')
+meodb = dbconnect['meodb']
+meomgnt_collection = meodb['meomgnt']
 
-Session = sessionmaker(bind = Engine)
-
-Base = declarative_base()
-
-class Meo(Base):
-    __tablename__ = "meo"
-    id = Column(Integer, primary_key= True, autoincrement= True)
-    name = Column(String)
-    price = Column(Integer)
-    quantity = Column(Integer)
+class Meo():
+    name = ''
+    price = int
+    quantity = int
 
     def __init__(self, name, price, quantity) :
         self.name = name
         self.price = price
         self.quantity = quantity
 
-
-class MeoSchema(Schema):
-    id = fields.Number()
-    name = fields.Str()
-    price = fields.Number()
-    quantity = fields.Number()
-
-meo_schema = MeoSchema()
-meos_schema = MeoSchema(many = True)
+    def get_name(self):
+        return self.name
+    def get_price(self):
+        return self.price
+    def get_quantity(self):
+        return self.quantity
+    
+    def set_name(self, name):
+        self.name = name
+    def set_price(self, price):
+        self.name = price
+    def set_quantity(self, quantity):
+        self.name = quantity
+    
+    def getMeo(name):
+        try:
+            return meomgnt_collection.find_one({'name': name})
+        except Exception as e:
+            return e
+    
+    def getMeos():
+        try:
+            return meomgnt_collection.find()
+        except Exception as e:
+            return e
+    
+    def addMeo(Meo):
+        meo_data = {
+            'name': Meo.name,
+            'price': Meo.price,
+            'quantity': Meo.quantity
+        }
+        try:
+            meomgnt_collection.insert_one(meo_data)
+        except Exception as e:
+            return e
