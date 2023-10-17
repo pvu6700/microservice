@@ -1,0 +1,12 @@
+version: '2.4'
+services:
+  db:
+    image: mongo
+  webui:
+    image: "pvu6800/webui:latest"
+    ports:
+      - "4200:4200"
+  meo_mgnt:
+    image: "pvu6800/meo-mgnt:latest"
+    ports:
+      - "5000:5000"
