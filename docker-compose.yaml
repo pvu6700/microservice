@@ -1,7 +1,9 @@
 version: '2.4'
 services:
   db:
-    image: mongo
+    image: "mongodb/mongodb-community-server:latest"
+    ports:
+      - "27017:27017"
   webui:
     image: "pvu6800/webui:latest"
     ports:
