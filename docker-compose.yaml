@@ -4,11 +4,25 @@ services:
     image: "mongodb/mongodb-community-server:latest"
     ports:
       - "27017:27017"
+    networks:
+      - micro-app
+    volumes:
+      - mongo-data:/data/db
   webui:
     image: "pvu6800/webui:latest"
     ports:
       - "4200:4200"
+    networks:
+      - micro-app
   meo_mgnt:
     image: "pvu6800/meo-mgnt:latest"
     ports:
       - "5000:5000"
+    networks:
+      - micro-app
+networks:
+  micro-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
