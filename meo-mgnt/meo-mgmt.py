@@ -54,7 +54,7 @@ def add_meo():
     data = request.get_json()
     meo_data = Meo(data['name'], data['price'], data['quantity'])
     Meo.addMeo(meo_data)
-    message = {'message': 'Meow done'}
+    message = {'message': 'Done'}
     return jsonify(message).data, 200
 
 #run app

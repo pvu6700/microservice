@@ -2,6 +2,7 @@ version: '2.4'
 services:
   db:
     image: "mongodb/mongodb-community-server:latest"
+    container_name: "mongodb"
     ports:
       - "27017:27017"
     networks:
@@ -10,16 +11,20 @@ services:
       - mongo-data:/data/db
   webui:
     image: "pvu6800/webui:latest"
+    container_name: "webui"
     ports:
       - "4200:4200"
     networks:
       - micro-app
   meo_mgnt:
     image: "pvu6800/meo-mgnt:latest"
+    container_name: "meomgnt"
     ports:
       - "5000:5000"
     networks:
       - micro-app
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
 networks:
   micro-app:
     driver: bridge
