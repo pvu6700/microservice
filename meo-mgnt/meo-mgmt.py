@@ -6,7 +6,7 @@ from model.meoDTO import Meo
 #init app
 app = Flask(__name__)
 CORS(app)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/"
+app.config["MONGO_URI"] = "mongodb://mongodb:27017/"
 
 #app process
 # @app.after_request

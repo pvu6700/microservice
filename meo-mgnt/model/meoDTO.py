@@ -1,6 +1,6 @@
 import pymongo
 
-dbconnect = pymongo.MongoClient('mongodb://localhost:27017/')
+dbconnect = pymongo.MongoClient('mongodb://mongodb:27017/')
 meodb = dbconnect['meodb']
 meomgnt_collection = meodb['meomgnt']
 
