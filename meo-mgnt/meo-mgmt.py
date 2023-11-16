@@ -20,7 +20,6 @@ app.config["MONGO_URI"] = "mongodb://mongodb:27017/"
 def index():
     welcome = {'message': 'Meoww'}
     return jsonify(welcome).data, 200
-    # return 'Meowww'
 
 @app.route('/meo/<string:name>', methods = ['GET'])
 def get_meo(name):
