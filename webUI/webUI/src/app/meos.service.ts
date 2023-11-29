@@ -8,7 +8,7 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class MeosService {
-  baseUrl: string = 'http://127.0.0.1:5000/'
+  baseUrl: string = 'http://localhost:3500/v1.0/invoke/meo/method/'
 
   constructor(private httpClient: HttpClient) { }
 
