@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "dapr javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pvu6700/microservice.git"
+  },
+  "author": "pvu6700",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pvu6700/microservice/issues"
+  },
+  "homepage": "https://github.com/pvu6700/microservice#readme",
+  "dependencies": {
+    "@dapr/dapr": "^3.2.0",
+    "axios": "^1.6.2"
+  }
+}

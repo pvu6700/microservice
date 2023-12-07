@@ -14,8 +14,9 @@ export class HomeComponent implements OnInit, OnDestroy{
   ){}
   
   getdata(): void{
-    this.meoService.getWelcome().subscribe(
-      message => this.message = message
+    this.meoService.getWelcome().then(
+      message => this.message = message,
+      error => console.log(error)
     );
   }
 
