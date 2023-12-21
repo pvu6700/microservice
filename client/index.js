@@ -1,13 +1,62 @@
-import { DaprClient, DaprServer, HttpMethod } from "@dapr/dapr"
+const express = require('express');
+const app = express();
 
-const daprHost = process.env.DAPR_HOST || "http://localhost";
-const daprPort = "3500";
-const serviceAppId = "meo";
+const daprPort = '3500';
+const daprHost = `http://localhost:${daprPort}/v1.0/invoke/meo/method/`;
+const errorResponse = "Opps! Something went wrong"
 
-const client = new DaprClient({daprHost, daprPort});
+var meo = {};
 
-async function main() {
-    await client.invoker.invoke(serviceAppId, "", HttpMethod.GET);
-}
+app.get('', async (_req, res) => {
+    try {
+        const response = await fetch(`${daprHost}`);
+        if (!response.ok){
+            throw errorResponse;
+        }
+        const welcome = await response.json();
+        res.send(welcome);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: error});
+    }
+});
 
-main().catch(e => console.error(e))
+app.get('/meos', async (_req, res) => {
+    try {
+        const response = await fetch(`${daprHost}/meos`);
+        if(!response.ok){
+            throw errorResponse;
+        }
+        const listMeo = await response.json();
+        res.json(listMeo);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: error});
+    }
+});
+
+app.post('/addmeos', async (req, res) => {
+    const data = req.body;
+    console.log("Got new obj")
+
+    try {
+        const response = await fetch(`${daprHost}/addmeos`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!response.ok) {
+            throw errorResponse;
+        }
+        console.log("OK");
+        res.status(200).send();
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: error});
+    }
+});
+
+app.listen(3000, () => console.log("Application is running"));
