@@ -1,5 +1,9 @@
 const express = require('express');
+const jsdome = require('jsdom');
 const app = express();
+const dom = new jsdome.JSDOM("");
+const jquery = require('jquery')(dom.window);
+
 
 const daprPort = '3500';
 const daprHost = `http://localhost:${daprPort}/v1.0/invoke/meo/method/`;
@@ -14,10 +18,10 @@ app.get('', async (_req, res) => {
             throw errorResponse;
         }
         const welcome = await response.json();
-        res.send(welcome);
+        dom.window.document.body.innerHTML = res.send(welcome);
     } catch (error) {
         console.log(error);
-        res.status(500).send({message: error});
+        dom.window.document.body.innerHTML = res.status(500).send({message: error});
     }
 });
 
@@ -28,10 +32,10 @@ app.get('/meos', async (_req, res) => {
             throw errorResponse;
         }
         const listMeo = await response.json();
-        res.json(listMeo);
+        dom.window.document.body.innerHTML = res.json(listMeo);
     } catch (error) {
         console.log(error);
-        res.status(500).send({message: error});
+        dom.window.document.body.innerHTML = res.status(500).send({message: error});
     }
 });
 
