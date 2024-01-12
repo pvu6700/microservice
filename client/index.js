@@ -1,16 +1,17 @@
-const express = require('express');
-const jsdome = require('jsdom');
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import * as jsdom from "jsdom";
 const app = express();
-const dom = new jsdome.JSDOM("");
-const jquery = require('jquery')(dom.window);
-
+const dom = new jsdom.JSDOM("template/index.html");
+// const jquery = require('jquery')(dom.window);
 
 const daprPort = '3500';
 const daprHost = `http://localhost:${daprPort}/v1.0/invoke/meo/method/`;
 const errorResponse = "Opps! Something went wrong"
 
 var meo = {};
-
+app.use(express.static('template'));
 app.get('', async (_req, res) => {
     try {
         const response = await fetch(`${daprHost}`);
@@ -18,10 +19,15 @@ app.get('', async (_req, res) => {
             throw errorResponse;
         }
         const welcome = await response.json();
-        dom.window.document.body.innerHTML = res.send(welcome);
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        const _retfile = path.join(__dirname, 'index.html');
+        document.querySelector(".welcome").append(welcome);
+        // res.send(welcome);
+        res.sendFile(_retfile);
     } catch (error) {
         console.log(error);
-        dom.window.document.body.innerHTML = res.status(500).send({message: error});
+        res.status(500).send({message: error});
     }
 });
 
@@ -32,10 +38,10 @@ app.get('/meos', async (_req, res) => {
             throw errorResponse;
         }
         const listMeo = await response.json();
-        dom.window.document.body.innerHTML = res.json(listMeo);
+        res.json(listMeo);
     } catch (error) {
         console.log(error);
-        dom.window.document.body.innerHTML = res.status(500).send({message: error});
+        res.status(500).send({message: error});
     }
 });
 
