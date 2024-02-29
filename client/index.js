@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import * as jsdom from "jsdom";
 const app = express();
-const dom = new jsdom.JSDOM("template/index.html");
+// const dom = new jsdom.JSDOM("template/index.html");
 // const jquery = require('jquery')(dom.window);
 
 const daprPort = '3500';
@@ -22,7 +22,8 @@ app.get('', async (_req, res) => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         const _retfile = path.join(__dirname, 'index.html');
-        document.querySelector(".welcome").append(welcome);
+        // document.querySelector(".welcome").append(welcome);
+        document.getElementById("welcome").innerHTML = welcome;
         // res.send(welcome);
         res.sendFile(_retfile);
     } catch (error) {
