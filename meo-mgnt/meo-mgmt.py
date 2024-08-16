@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS, cross_origin
+from dapr.clients import DaprClient
 from model import meoDTO
 from model.meoDTO import Meo
 
@@ -55,6 +56,12 @@ def add_meo():
     Meo.addMeo(meo_data)
     message = {'message': 'Done'}
     return jsonify(message).data, 200
+
+# @app.route('/meos/publish', method = ['POST'])
+# def publish_meo():
+#     data = request.get_json()
+#     with DaprClient() as dapr:
+#         response = dapr.invoke_service('meo-frontend')
 
 #run app
 if __name__ == '__main__':

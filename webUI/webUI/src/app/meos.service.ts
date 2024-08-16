@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Meos } from './meo.model';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs';
 import { DaprClient, DaprServer, HttpMethod } from '@dapr/dapr';
 
 const daprHost = '127.0.0.1';
 const daprPort = '3500';
+const serviceAppId = 'meo';
+
 // const serverHost = '127.0.0.1';
 // const serverPort = '4200';
 
 const client = new DaprClient({daprHost, daprPort});
-const serviceAppId = 'meo';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,7 +30,11 @@ export class MeosService {
   }
 
   public getMeos(): Observable<any>{
-    return this.httpClient.get<any>(this.baseUrl + 'meos');
+    const serviceMethod = 'meos'
+    return from(client.invoker.invoke(serviceAppId, serviceMethod, HttpMethod.GET))
+    .pipe(
+      map((response) => console.log(response))
+    );
   }
 
   public addMeo(name:any, price:any, quantity:any){

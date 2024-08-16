@@ -1,10 +1,10 @@
 import express from "express";
+import dapr from "@dapr/dapr";
 import path from "path";
-import { fileURLToPath } from "url";
 import * as jsdom from "jsdom";
 const app = express();
-// const dom = new jsdom.JSDOM("template/index.html");
-// const jquery = require('jquery')(dom.window);
+
+// app.use(dapr.middleware());
 
 const daprPort = '3500';
 const daprHost = `http://localhost:${daprPort}/v1.0/invoke/meo/method/`;
@@ -14,18 +14,12 @@ var meo = {};
 app.use(express.static('template'));
 app.get('', async (_req, res) => {
     try {
-        const response = await fetch(`${daprHost}`);
-        if (!response.ok){
-            throw errorResponse;
-        }
-        const welcome = await response.json();
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        const _retfile = path.join(__dirname, 'index.html');
-        // document.querySelector(".welcome").append(welcome);
-        document.getElementById("welcome").innerHTML = welcome;
-        // res.send(welcome);
-        res.sendFile(_retfile);
+        const welcomeResponse = await fetch(`${daprHost}`);
+        const welcomeData = await welcomeResponse.json();
+        const welcome = document.getElementById("welcome");
+        welcome.textContent = JSON.stringify(welcomeData);
+
+        res.send(welcome);
     } catch (error) {
         console.log(error);
         res.status(500).send({message: error});
@@ -34,12 +28,20 @@ app.get('', async (_req, res) => {
 
 app.get('/meos', async (_req, res) => {
     try {
-        const response = await fetch(`${daprHost}/meos`);
+        const meoResponse =  await fetch(`${daprHost}/meos`);
+        const meoData = await meoResponse.json();
+
         if(!response.ok){
             throw errorResponse;
         }
-        const listMeo = await response.json();
-        res.json(listMeo);
+        //Update HTMl elements
+        const meoList = document.getElementById("meos-list");
+        meoData.array.forEach(meo => {
+            const meoObj = document.createElement("li");
+            listMeo.textContent = JSON.stringify(meo);
+            meoList.appendChild(meoObj);
+        });
+        res.send(listMeo);
     } catch (error) {
         console.log(error);
         res.status(500).send({message: error});

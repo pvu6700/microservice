@@ -3,15 +3,20 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Microservice</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='index.css'>
-    <script src='../index.js'></script>
 </head>
 <body>
-    <div class="welcome">
-        <p id="welcome"></p>
-    </div>
-    <a href="form.html">Add new</a>
+    <div id="welcome"></div>
+    <ul id="meos-list"></ul>
+    <form method="post">
+        <input type="text" id="meo" placeholder="meo">
+        <input type="text" id="price" placeholder="price">
+        <input type="text" id="quantity" placeholder="quantity">
+        <button type="submit">Add meo</button>
+    </form>
+    <script src='../index.js'></script>
+
 </body>
 </html>
